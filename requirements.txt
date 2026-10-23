@@ -1,0 +1,4 @@
+streamlit>=1.35.0
+google-genai>=0.1.1
+streamlit-mic-recorder>=0.0.8
+gTTS>=2.5.1
