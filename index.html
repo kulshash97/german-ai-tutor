@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DeutschMeister Pro | First-Principles German AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #080d1a;
+            --surface: #0f172a;
+            --surface-card: rgba(17, 24, 39, 0.78);
+            --border: rgba(255, 255, 255, 0.08);
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.3);
+            --accent: #10b981;
+            --amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 90px;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(8, 13, 26, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .brand-text h1 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pro-tag {
+            font-size: 10px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-weight: 700;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-suite {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-suite:active {
+            transform: scale(0.97);
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            backdrop-filter: blur(8px);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-val {
+            font-size: 17px;
+            font-weight: 700;
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cases-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+        }
+
+        .cases-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--amber);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            text-align: center;
+        }
+
+        .case-cell {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 9px 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .case-cell:hover, .case-cell:active {
+            background: rgba(59, 130, 246, 0.22);
+            border-color: #3b82f6;
+            transform: scale(0.98);
+        }
+
+        .case-cell .tag {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .case-cell .word {
+            font-size: 14px;
+            font-weight: 700;
+            color: #93c5fd;
+            margin-top: 2px;
+        }
+
+        .quick-drills {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .quick-drills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .drill-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .drill-chip:active {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .msg-bubble {
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            font-size: 14.5px;
+            line-height: 1.6;
+        }
+
+        .msg-tutor {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-top-left-radius: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .msg-user {
+            background: #1e3a8a;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-top-right-radius: 4px;
+            margin-left: auto;
+            max-width: 88%;
+        }
+
+        .badge-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        .badge-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .audio-pill {
+            margin-top: 12px;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .audio-pill-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .audio-pill-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #93c5fd;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .input-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(8, 13, 26, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border);
+            padding: 12px 16px;
+            z-index: 40;
+        }
+
+        .input-box-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .input-box {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text-main);
+            padding: 12px 16px;
+            font-size: 14.5px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .input-box:focus {
+            border-color: var(--primary);
+        }
+
+        .mic-btn, .send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .mic-btn {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .mic-btn.recording {
+            background: #ef4444;
+            color: white;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .send-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: flex-end;
+            z-index: 100;
+        }
+
+        .modal-sheet {
+            background: #111827;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 24px 20px 36px 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-badge">
+        <div class="avatar-box">DM</div>
+        <div class="brand-text">
+            <h1>DeutschMeister <span class="pro-tag">PRO</span></h1>
+        </div>
+    </div>
+    <button class="btn-suite" onclick="openModal()">🏢 Institutional</button>
+</header>
+
+<main>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">CEFR Level</div>
+            <div class="stat-val" style="color: #60a5fa;">A1.1</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Lexicon</div>
+            <div class="stat-val">384 <span style="font-size:11px; color:#94a3b8;">words</span></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Oral Accuracy</div>
+            <div class="stat-val" style="color: #34d399;">96.4%</div>
+        </div>
+    </div>
+
+    <div class="cases-card">
+        <div class="cases-title">⚡ Interactive Article Cases (Tap to Pronounce)</div>
+        <div class="case-grid">
+            <div class="case-cell" onclick="speakGerman('der Mann')">
+                <div class="tag">MASC (Nom)</div>
+                <div class="word">der</div>
+            </div>
+            <div class="case-cell" onclick="speakGerman('den Mann')">
+                <div class="tag">MASC (Akk)</div>
+                <div class="word">den</div>
+            </div>
+            <div class="case-cell" onclick="speakGerman('dem Mann')">
+                <div class="tag">MASC (Dat)</div>
+                <div class="word">dem</div>
+            </div>
+            <div class="case-cell" onclick="speakGerman('des Mannes')">
+                <div class="tag">MASC (Gen)</div>
+                <div class="word">des</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quick-drills">
+        <div class="drill-chip" onclick="runPrompt('How to say my name is Shashank in German')">🎯 My Name Is Shashank</div>
+        <div class="drill-chip" onclick="runPrompt('Explain Sie vs du with Aap and Tum analogy')">🇮🇳 Sie vs Du (Aap vs Tum)</div>
+        <div class="drill-chip" onclick="runPrompt('Explain the Verb-Second position rule')">📐 Verb-Second Rule</div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="msg-bubble msg-tutor">
+            <div class="badge-bar">
+                <span class="badge badge-green">Herr Lukas</span>
+                <span class="badge">Native AI Tutor</span>
+            </div>
+            <strong>Guten Tag, Shashank! Willkommen bei DeutschMeister Pro.</strong><br><br>
+            I coach you through German grammar using first-principles logic and natural parallels to Indian linguistic frames (like case markers and formal address).<br><br>
+            Tap any drill above, or practice your speech below.
+            <div class="audio-pill">
+                <div class="audio-pill-text">Guten Tag! Ich bin Herr Lukas.</div>
+                <button class="audio-pill-btn" onclick="speakGerman('Guten Tag! Ich bin Herr Lukas.')">🔊 Listen</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="input-bar">
+    <div class="input-box-wrapper">
+        <button class="mic-btn" id="micBtn" onclick="toggleVoiceInput()">🎙️</button>
+        <input type="text" class="input-box" id="userInput" placeholder="Ask in English or German..." onkeypress="handleKey(event)">
+        <button class="send-btn" onclick="sendInput()">➤</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">🏢 Institutional B2B Licensing</h2>
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 18px;">
+            Empower your study-abroad or nursing applicants to clear Goethe/telc oral exams in under 45 days.
+        </p>
+
+        <div style="background: rgba(255,255,255,0.04); border-radius: 14px; padding: 14px; border: 1px solid var(--border); margin-bottom: 14px;">
+            <div style="font-size: 12px; color: var(--text-muted);">Batch Savings</div>
+            <div style="font-size: 22px; font-weight: 800; color: #34d399; margin: 4px 0;">₹1,40,000 / batch</div>
+            <div style="font-size: 12px; color: #94a3b8;">Versus private native tutor fees per 10-student cohort.</div>
+        </div>
+
+        <button onclick="window.open('https://wa.me/919154429927?text=Hi%2C%20I%20am%20interested%20in%20deploying%20DeutschMeister%20Pro%20for%20our%20consultancy.', '_blank')" 
+            style="width: 100%; background: #2563eb; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer;">
+            Book Institutional Pilot via WhatsApp
+        </button>
+    </div>
+</div>
+
+<script>
+    function speakGerman(text) {
+        if (!('speechSynthesis' in window)) {
+            alert('Speech synthesis is not supported on this device browser.');
+            return;
+        }
+        window.speechSynthesis.cancel();
+        
+        const clean = text.replace(/[\*\_#\[\]\(\)<>\"']/g, '').trim();
+        const utterance = new SpeechSynthesisUtterance(clean);
+        utterance.lang = 'de-DE';
+        utterance.rate = 0.85;
+        
+        const voices = window.speechSynthesis.getVoices();
+        const germanVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('de'));
+        if (germanVoice) utterance.voice = germanVoice;
+        
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function openModal() { document.getElementById('modalOverlay').style.display = 'flex'; }
+    function closeModal(e) { document.getElementById('modalOverlay').style.display = 'none'; }
+
+    function handleKey(e) { if (e.key === 'Enter') sendInput(); }
+
+    function runPrompt(text) {
+        document.getElementById('userInput').value = text;
+        sendInput();
+    }
+
+    function sendInput() {
+        const input = document.getElementById('userInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        appendMessage('user', text);
+        input.value = '';
+
+        setTimeout(() => {
+            generateSimulatedResponse(text);
+        }, 600);
+    }
+
+    function appendMessage(role, content, audioText = null) {
+        const container = document.getElementById('chatContainer');
+        const bubble = document.createElement('div');
+        bubble.className = `msg-bubble ${role === 'user' ? 'msg-user' : 'msg-tutor'}`;
+
+        let html = content;
+        if (audioText) {
+            html += `
+                <div class="audio-pill">
+                    <div class="audio-pill-text">${audioText}</div>
+                    <button class="audio-pill-btn" onclick="speakGerman('${audioText.replace(/'/g, "\\'")}')">🔊 Listen</button>
+                </div>
+            `;
+        }
+        bubble.innerHTML = html;
+        container.appendChild(bubble);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function generateSimulatedResponse(prompt) {
+        const lower = prompt.toLowerCase();
+        if (lower.includes('shashank') || lower.includes('my name') || lower.includes('name is')) {
+            appendMessage('tutor', 
+                `<strong>Ausgezeichnet!</strong> In German, there are two primary ways to state your name:<br><br>
+                1. <strong>Ich heiße Shashank Kulkarni.</strong> [Ikh hy-suh...]<br>
+                <em>Literal:</em> I am called Shashank Kulkarni.<br><br>
+                2. <strong>Mein Name ist Shashank Kulkarni.</strong><br>
+                <em>Literal:</em> My name is Shashank Kulkarni.<br><br>
+                Notice that the verb <strong>heiße</strong> or <strong>ist</strong> stays strictly in the <strong>second position</strong> (Verb-Second rule).`,
+                'Ich heiße Shashank Kulkarni.'
+            );
+        } else if (lower.includes('sie') || lower.includes('du') || lower.includes('aap')) {
+            appendMessage('tutor', 
+                `<strong>Intuition Parallel:</strong><br><br>
+                German handles formality exactly like Indian languages:<br>
+                • <strong>Sie</strong> (Capital 'S') = <strong>आप (Aap) / మీరు (Meeru)</strong>. Used with professors, interviewers, and strangers.<br>
+                • <strong>du</strong> = <strong>तुम (Tum) / నువ్వు (Nuvvu)</strong>. Used with friends and peers.<br><br>
+                Example: <em>Wie heißen Sie?</em> (What is your name? - Formal)`,
+                'Wie heißen Sie?'
+            );
+        } else if (lower.includes('verb') || lower.includes('second')) {
+            appendMessage('tutor', 
+                `<strong>The V2 (Verb-Second) Rule:</strong><br><br>
+                In main German clauses, the conjugated verb MUST always be the <strong>second element</strong> in the sentence, regardless of what comes first.<br><br>
+                • <em>Heute <strong>lerne</strong> ich Deutsch.</em> (Today learn I German).<br>
+                • <em>Ich <strong>lerne</strong> heute Deutsch.</em> (I learn today German).`,
+                'Heute lerne ich Deutsch.'
+            );
+        } else {
+            appendMessage('tutor', 
+                `<strong>Verstanden!</strong> Let's practice that expression.<br><br>
+                Pay close attention to word order and inflection. Tap the button below to hear the native pronunciation:`,
+                'Guten Tag! Wie geht es Ihnen?'
+            );
+        }
+    }
+
+    let recognition = null;
+    let isRecording = false;
+
+    function toggleVoiceInput() {
+        const btn = document.getElementById('micBtn');
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRec) {
+            alert('Speech recognition is not supported on this browser. Please type your message.');
+            return;
+        }
+
+        if (!recognition) {
+            recognition = new SpeechRec();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-IN';
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('userInput').value = transcript;
+                sendInput();
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                btn.classList.remove('recording');
+                btn.innerText = '🎙️';
+            };
+        }
+
+        if (!isRecording) {
+            recognition.start();
+            isRecording = true;
+            btn.classList.add('recording');
+            btn.innerText = '⏹️';
+        } else {
+            recognition.stop();
+        }
+    }
+</script>
+</body>
+</html>
